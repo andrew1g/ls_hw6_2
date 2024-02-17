@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SampleEmail;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,3 +62,8 @@ Route::get('/cart', function () {
 })->middleware(['auth', 'verified'])->name('cart');
 
 require __DIR__.'/auth.php';
+
+Route::get('/send-email', function () {
+    Mail::to('andlab@mail.ru')->send(new SampleEmail());
+    return "Email sent successfully!";
+});

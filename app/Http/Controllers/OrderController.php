@@ -7,6 +7,9 @@ use App\Models\Product;
 use App\Models\Order;
 use App\Models\Auth\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderShipped;
+use App\Mail\SampleEmail;
 
 
 class OrderController extends Controller
@@ -28,7 +31,8 @@ class OrderController extends Controller
             'user_name' => 'required|max:255',            
         ]);
 
-   
+        $admin_email = 'andrew289mail@gmail.com';
+
         $order = Order::create([
             'name'=>$request->user_name,
             'email'=>$request->email,
@@ -37,7 +41,9 @@ class OrderController extends Controller
             'updated_at'=>now()
             ]);
 
-                          
+         Mail::to($admin_email)->send(new OrderShipped($order));
+          
+            
         return view('ordersuccess',['order'=>$order]);
 
     }
