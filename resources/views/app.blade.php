@@ -40,6 +40,15 @@
                       <button type="submit">Выход</button>
                     </form>
                         <!-- <a href="{{ url('logout') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Logout</a> -->
+
+                        
+                        @if (Auth::user()->isAdmin === 1)
+                        <form method="GET" action="{{ route('admin') }}">
+                      @csrf
+                      <button type="submit">АДМИНКА</button>
+                    </form>
+                          
+                        @endif
                     @else
                     <form method="GET" action="{{ route('login') }}">
                       @csrf

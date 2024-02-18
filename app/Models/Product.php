@@ -9,13 +9,15 @@ class Product extends Model
     protected $table = 'products';
     public $timestamps = false;
     protected $fillable = [
+        'id',
         'name',
         'category_id',
         'price',
         'created_at',
         'updated_at',
         'foto',
-        'description'
+        'description',
+        'url'
     ];
 
         

@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CatalogController;
+use App\Http\Controllers\AdminController;
+use App\Http\Middleware\AdminEditMiddleware;
 use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
@@ -63,7 +65,22 @@ Route::get('/cart', function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/send-email', function () {
-    Mail::to('andlab@mail.ru')->send(new SampleEmail());
-    return "Email sent successfully!";
+// Route::get('/send-email', function () {
+//     Mail::to('testtest@mail.ru')->send(new SampleEmail());
+//     return "Email sent successfully!";
+// });
+Route::group(['middleware' => \App\Http\Middleware\AdminEditMiddleware::class], function () {
+    Route::get('/admin', [AdminController::class, 'admin'])->name('admin');
+    Route::get('/admin/categories', [AdminController::class, 'categories'])->name('admin.categories');
+    Route::get('/admin/products', [AdminController::class, 'products'])->name('admin.products'); 
+    Route::get('/admin/productadd', [AdminController::class, 'productadd'])->name('admin.productadd'); 
+    Route::post('/admin/productshow', [AdminController::class, 'productshow'])->name('admin.productshow'); 
+    Route::post('/admin/productsave', [AdminController::class, 'productsave'])->name('admin.productsave');
+    Route::post('/admin/productdelete', [AdminController::class, 'productdelete'])->name('admin.productdelete'); 
+    
+    Route::get('/admin/categories', [AdminController::class, 'categories'])->name('admin.categories'); 
+    Route::get('/admin/categoryadd', [AdminController::class, 'categoryadd'])->name('admin.categoryadd'); 
+    Route::post('/admin/categoryshow', [AdminController::class, 'categoryshow'])->name('admin.categoryshow'); 
+    Route::post('/admin/categorysave', [AdminController::class, 'categorysave'])->name('admin.categorysave');
+    Route::post('/admin/categorydelete', [AdminController::class, 'categorydelete'])->name('admin.categorydelete'); 
 });
